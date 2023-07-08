@@ -1,0 +1,22 @@
+{
+    "name": "wedrix/watchtower-bundle",
+    "description": "Symfony bundle for watchtower",
+    "type": "symfony-bundle",
+    "require": {
+        "symfony/framework-bundle": "^6.1",
+        "wedrix/watchtower": "^3.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Wedrix\\WatchtowerBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Wedam Anewenah",
+            "email": "wedamja@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
