@@ -7,7 +7,7 @@ wedrix_watchtower:
   cache_schema: false
   debug: true
   context:
-    entity_manager: '@doctrine.orm.entity_manager'
+    entity_manager: 'doctrine.orm.entity_manager'
 
 when@prod:
   wedrix_watchtower:
