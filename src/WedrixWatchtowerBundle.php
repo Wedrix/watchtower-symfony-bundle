@@ -41,8 +41,7 @@ final class WedrixWatchtowerBundle extends AbstractBundle
                 ->booleanNode('debug')
                     ->isRequired()
                 ->end()
-                ->arrayNode('context')
-                    ->cannotBeEmpty()
+                ->variableNode('context')
                 ->end()
             ->end();
     }
@@ -57,28 +56,28 @@ final class WedrixWatchtowerBundle extends AbstractBundle
 
         $containerConfigurator->services()
             ->get('Wedrix\WatchtowerBundle\Service\RoutesLoader')
-            ->arg(0, $config['endpoint']);
+            ->arg('$configuredEndpoint', $config['endpoint']);
 
         $containerConfigurator->services()
             ->get('Wedrix\WatchtowerBundle\Controller\WatchtowerController')
-            ->arg(2, $config['context'])
-            ->arg(3, $config['debug']);
+            ->arg('$context', $config['context'] ?? [])
+            ->arg('$debug', $config['debug']);
 
         $containerConfigurator->services()
             ->set('Wedrix\Watchtower\Executor')
-            ->arg(0, '@doctrine.orm.entity_manager')
-            ->arg(1, $config['schema_file'])
-            ->arg(2, $config['plugins_directory'])
-            ->arg(3, $config['scalar_type_definitions_directory'])
-            ->arg(4, $config['cache_schema'])
-            ->arg(5, $config['schema_cache_directory']);
+            ->autowire()
+            ->arg('$schemaFile', $config['schema_file'])
+            ->arg('$pluginsDirectory', $config['plugins_directory'])
+            ->arg('$scalarTypeDefinitionsDirectory', $config['scalar_type_definitions_directory'])
+            ->arg('$cachesSchema', $config['cache_schema'])
+            ->arg('$schemaCacheDirectory', $config['schema_cache_directory']);
 
         $containerConfigurator->services()
             ->set('Wedrix\Watchtower\Console')
-            ->arg(0, '@doctrine.orm.entity_manager')
-            ->arg(1, $config['schema_file'])
-            ->arg(2, $config['plugins_directory'])
-            ->arg(3, $config['scalar_type_definitions_directory'])
-            ->arg(4, $config['schema_cache_directory']);
+            ->autowire()
+            ->arg('$schemaFile', $config['schema_file'])
+            ->arg('$pluginsDirectory', $config['plugins_directory'])
+            ->arg('$scalarTypeDefinitionsDirectory', $config['scalar_type_definitions_directory'])
+            ->arg('$schemaCacheDirectory', $config['schema_cache_directory']);
     }
 }

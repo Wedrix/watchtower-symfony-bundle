@@ -10,3 +10,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/WedrixWatchtowerBundle.php'
+
+    Symfony\Component\DependencyInjection\ContainerInterface:
+        alias: 'service_container'
+        public: true

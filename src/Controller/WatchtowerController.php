@@ -6,6 +6,7 @@ namespace Wedrix\WatchtowerBundle\Controller;
 
 use GraphQL\Error\DebugFlag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wedrix\Watchtower\Executor as WatchtowerExecutor;
@@ -15,11 +16,31 @@ final class WatchtowerController extends AbstractController
     /**
      * @var array<string,mixed>
      */
-    public function index(
-        Request $request,
-        WatchtowerExecutor $executor,
-        array $context,
-        bool $debug
+    private readonly array $context;
+    
+    /**
+     * @param array<string,mixed> $context
+     */
+    public function __construct(
+        private readonly WatchtowerExecutor $executor,
+        private readonly bool $debug,
+        ContainerInterface $container,
+        array $context
+    )
+    {
+        $this->context = (static function() use($context, $container): array {
+            $resolvedContext = [];
+
+            foreach ($context as $key => $serviceId) {
+                $resolvedContext[$key] = $container->get($serviceId);
+            }
+
+            return $resolvedContext;
+        })();
+    }
+
+    public function __invoke(
+        Request $request
     ): Response
     {
         $input = \json_decode($request->getContent(), true);
@@ -29,23 +50,24 @@ final class WatchtowerController extends AbstractController
         $response->setContent(
             content: \is_string(
                 $responseBody = \json_encode(
-                    $executor->executeQuery(
-                        source: $input['query'] ?? '',
-                        rootValue: [],
-                        contextValue: [
-                            'request' => $request, 
-                            'response' => $response,
-                            ...$context
-                        ],
-                        variableValues: $input['variables'] ?? null,
-                        operationName: $input['operationName'] ?? null,
-                        validationRules: null
-                    )
-                    ->toArray(
-                        debug: $debug
-                            ? DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE
-                            : DebugFlag::NONE,
-                    )
+                    $this->executor
+                        ->executeQuery(
+                            source: $input['query'] ?? '',
+                            rootValue: [],
+                            contextValue: [
+                                'request' => $request,
+                                'response' => $response,
+                                ...$this->context
+                            ],
+                            variableValues: $input['variables'] ?? null,
+                            operationName: $input['operationName'] ?? null,
+                            validationRules: null
+                        )
+                        ->toArray(
+                            debug: $this->debug
+                                ? DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE
+                                : DebugFlag::NONE,
+                        )
                 )
             ) 
             ? $responseBody
