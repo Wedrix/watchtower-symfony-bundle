@@ -1,4 +1,4 @@
-The WedrixWatchtowerBundle allows you to easily serve a GraphQL API for a Symfony application in as little as three easy steps. It is based on [Watchtower](https://github.com/Wedrix/watchtower), a wrapper around graphql-php, that provides an enhanced fallback resolver capable of auto-resolving GraphQL queries using the Doctrine schema.
+The WedrixWatchtowerBundle allows you to easily serve a GraphQL API for a Symfony application in as few as three easy steps. It is based on [Watchtower](https://github.com/Wedrix/watchtower), a wrapper around graphql-php, that provides an enhanced fallback resolver capable of auto-resolving GraphQL queries using the Doctrine schema.
 
 # Requirements
 
