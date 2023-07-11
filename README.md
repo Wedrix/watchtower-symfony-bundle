@@ -1,4 +1,4 @@
-The WedrixWatchtowerBundle allows you to easily serve a GraphQL API for Symfony application in as little as three easy steps. It is based on [Watchtower](https://github.com/Wedrix/watchtower), a wrapper around graphql-php, that provides an enhanced fallback resolver capable of auto-resolving GraphQL queries using the Doctrine schema.
+The WedrixWatchtowerBundle allows you to easily serve a GraphQL API for a Symfony application in as little as three easy steps. It is based on [Watchtower](https://github.com/Wedrix/watchtower), a wrapper around graphql-php, that provides an enhanced fallback resolver capable of auto-resolving GraphQL queries using the Doctrine schema.
 
 # Requirements
 
@@ -20,9 +20,9 @@ Install the bundle in three easy steps:
 
         php bin/console watchtower:schema:generate
 
-That's it! Your GraphQL API is available at `whatever-your-domain-is/graphql.json` by default.  
+**That's it!** Your GraphQL API is now available at `whatever-your-domain-is/graphql.json` by default.  
 
-**Note:** When accessing the API over a browser you may need to enable CORS if it's not already enabled for your application. To do so, kindly view the [NelmioCorsBundle documentation](https://symfony.com/bundles/NelmioCorsBundle/current/index.html) for the installation and setup guide. You may also view [the demo application's source code](https://github.com/Wedrix/watchtower-symfony-demo-application/blob/main/config/packages/nelmio_cors.yaml) for a quick-and-dirty example configuration after installing the bundle.
+**Note:** When accessing the API over a web browser you may need to enable CORS if it is not already enabled for your application. To do so, kindly view the [NelmioCorsBundle documentation](https://symfony.com/bundles/NelmioCorsBundle/current/index.html) for the installation and setup guide. You may also view [the demo application's source code](https://github.com/Wedrix/watchtower-symfony-demo-application/blob/main/config/packages/nelmio_cors.yaml) for a quick-and-dirty example configuration after installing the bundle.
 
 # Features
 
