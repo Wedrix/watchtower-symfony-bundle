@@ -36,8 +36,8 @@ The various configuration options are available in the `config/packages/wedrix_w
 * `schema_file` - configures the file used as the source of the GraphQL schema (auto-generated using the `php bin/console watchtower:schema:generate` command). You may point it to a pre-existing schema file if your project already has one.
 * `plugins_directory` - configures the directory containing your various plugins: filters, selectors, resolvers, etc. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#plugins) for more info on plugins.
 * `scalar_type_definitions_directory` - configures the directory containing your various scalar type definition files. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#scalar-type-definitions) for more info on scalar type definitions.
-* `schema_cache_directory` - the directory for storing caches of the schema.
-* `cache_schema` - whether to cache the schema. This improves the performance but may be annoying in development since it necessitates clearing the cache whenever you make changes to the schema.
+* `cache_directory` - the directory for storing caches.
+* `optimize` - whether to run in optimized mode. This improves the performance but may be annoying in development since it necessitates regenerating the cache whenever you make changes to the schema or add new plugins or scalar type definitions.
 * `debug` - whether to send debug information to the client. Most of the time, this should only be enabled in development environments but the configuration is exposed for those who want to take their chances debugging production environemnts.
 * `context` - this allows you access any service in the container in plugins using the Node::context() method. The service key can be any name of your choosing but the value should be the service id. For example: `entity_manager: 'doctrine.orm.entity_manager'`.
 
@@ -49,3 +49,4 @@ The various configuration options are available in the `config/packages/wedrix_w
 * `watchtower:plugins:list` - lists all the configured plugins. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#plugins) for more info on plugins.
 * `watchtower:scalar-type-definitions:list` - lists all the configured scalar type definitions. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#scalar-type-definitions) for more info on scalar type definitions.
 * `watchtower:schema:update` - used to update the GraphQL schema file based on the current Doctrine schema.
+* `watchtower:cache:generate` - used to generate the updated cache.
