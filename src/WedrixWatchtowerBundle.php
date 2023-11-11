@@ -31,11 +31,11 @@ final class WedrixWatchtowerBundle extends AbstractBundle
                     ->cannotBeEmpty()
                     ->isRequired()
                 ->end()
-                ->scalarNode('schema_cache_directory')
+                ->scalarNode('cache_directory')
                     ->cannotBeEmpty()
                     ->isRequired()
                 ->end()
-                ->booleanNode('cache_schema')
+                ->booleanNode('optimize')
                     ->isRequired()
                 ->end()
                 ->booleanNode('debug')
@@ -69,8 +69,8 @@ final class WedrixWatchtowerBundle extends AbstractBundle
             ->arg('$schemaFile', $config['schema_file'])
             ->arg('$pluginsDirectory', $config['plugins_directory'])
             ->arg('$scalarTypeDefinitionsDirectory', $config['scalar_type_definitions_directory'])
-            ->arg('$cachesSchema', $config['cache_schema'])
-            ->arg('$schemaCacheDirectory', $config['schema_cache_directory']);
+            ->arg('$optimize', $config['optimize'])
+            ->arg('$cacheDirectory', $config['cache_directory']);
 
         $containerConfigurator->services()
             ->set('Wedrix\Watchtower\Console')
@@ -78,6 +78,6 @@ final class WedrixWatchtowerBundle extends AbstractBundle
             ->arg('$schemaFile', $config['schema_file'])
             ->arg('$pluginsDirectory', $config['plugins_directory'])
             ->arg('$scalarTypeDefinitionsDirectory', $config['scalar_type_definitions_directory'])
-            ->arg('$schemaCacheDirectory', $config['schema_cache_directory']);
+            ->arg('$cacheDirectory', $config['cache_directory']);
     }
 }
