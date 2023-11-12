@@ -19,5 +19,8 @@
             "email": "wedamja@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpstan/phpstan": "^1.10"
+    }
 }
