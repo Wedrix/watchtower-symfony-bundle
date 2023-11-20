@@ -5,7 +5,7 @@
     "require": {
         "symfony/framework-bundle": "^6.1",
         "doctrine/doctrine-bundle": "^2.8",
-        "wedrix/watchtower": "^4.0"
+        "wedrix/watchtower": "^5.0"
     },
     "license": "MIT",
     "autoload": {

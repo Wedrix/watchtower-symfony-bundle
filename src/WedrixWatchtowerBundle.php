@@ -69,13 +69,14 @@ final class WedrixWatchtowerBundle extends AbstractBundle
             ->arg('$schemaFile', $config['schema_file'])
             ->arg('$pluginsDirectory', $config['plugins_directory'])
             ->arg('$scalarTypeDefinitionsDirectory', $config['scalar_type_definitions_directory'])
-            ->arg('$optimize', $config['optimize'])
-            ->arg('$cacheDirectory', $config['cache_directory']);
+            ->arg('$cacheDirectory', $config['cache_directory'])
+            ->arg('$optimize', $config['optimize']);
 
         $containerConfigurator->services()
             ->set('Wedrix\Watchtower\Console')
             ->autowire()
-            ->arg('$schemaFile', $config['schema_file'])
+            ->arg('$schemaFileDirectory', \dirname($config['schema_file']))
+            ->arg('$schemaFileName', \pathinfo($config['schema_file'],\PATHINFO_BASENAME))
             ->arg('$pluginsDirectory', $config['plugins_directory'])
             ->arg('$scalarTypeDefinitionsDirectory', $config['scalar_type_definitions_directory'])
             ->arg('$cacheDirectory', $config['cache_directory']);
