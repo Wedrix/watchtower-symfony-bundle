@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Routing\RouteLoaderInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-final class RoutesLoader implements RouteLoaderInterface
+class RoutesLoader implements RouteLoaderInterface
 {
     private readonly RouteCollection $routes;
 

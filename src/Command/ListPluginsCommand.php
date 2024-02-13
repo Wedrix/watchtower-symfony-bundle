@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wedrix\WatchtowerBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,12 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Wedrix\Watchtower\Console as WatchtowerConsole;
 
-final class ListPluginsCommand extends Command
+#[AsCommand(name:'watchtower:plugins:list', description:'Lists all the project\'s plugins.')]
+class ListPluginsCommand extends Command
 {
-    protected static $defaultName = 'watchtower:plugins:list';
-
-    protected static $defaultDescription = 'Lists all the project\'s plugins.';
-
     public function __construct(
         protected readonly WatchtowerConsole $watchtowerConsole
     )

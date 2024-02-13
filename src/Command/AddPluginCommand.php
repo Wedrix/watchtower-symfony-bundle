@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wedrix\WatchtowerBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,12 +15,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Wedrix\Watchtower\Console as WatchtowerConsole;
 
-final class AddPluginCommand extends Command
+#[AsCommand(name:'watchtower:plugins:add', description:'Generates a plugin file.')]
+class AddPluginCommand extends Command
 {
-    protected static $defaultName = 'watchtower:plugins:add';
-
-    protected static $defaultDescription = 'Generates a plugin file.';
-
     public function __construct(
         protected readonly WatchtowerConsole $watchtowerConsole
     )

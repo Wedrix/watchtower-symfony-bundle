@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Wedrix\WatchtowerBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wedrix\Watchtower\Console as WatchtowerConsole;
 
-final class GenerateCacheCommand extends Command
+#[AsCommand(name:'watchtower:cache:generate', description:'Generate the updated cache.')]
+class GenerateCacheCommand extends Command
 {
-    protected static $defaultName = 'watchtower:cache:generate';
-
-    protected static $defaultDescription = 'Generate the updated cache.';
-
     public function __construct(
         protected readonly WatchtowerConsole $watchtowerConsole
     )

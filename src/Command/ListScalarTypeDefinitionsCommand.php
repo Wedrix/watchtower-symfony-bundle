@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wedrix\WatchtowerBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
@@ -11,12 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Wedrix\Watchtower\Console as WatchtowerConsole;
 
-final class ListScalarTypeDefinitionsCommand extends Command
+#[AsCommand(name:'watchtower:scalar-type-definitions:list', description:'Lists all the project\'s scalar type definitions.')]
+class ListScalarTypeDefinitionsCommand extends Command
 {
-    protected static $defaultName = 'watchtower:scalar-type-definitions:list';
-
-    protected static $defaultDescription = 'Lists all the project\'s scalar type definitions.';
-
     public function __construct(
         protected readonly WatchtowerConsole $watchtowerConsole
     )

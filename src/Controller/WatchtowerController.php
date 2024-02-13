@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wedrix\Watchtower\Executor as WatchtowerExecutor;
 
-final class WatchtowerController extends AbstractController
+class WatchtowerController extends AbstractController
 {
     /**
      * @var array<string,mixed>
