@@ -3648,16 +3648,16 @@
         },
         {
             "name": "wedrix/watchtower",
-            "version": "v5.0.7",
+            "version": "v5.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wedrix/watchtower.git",
-                "reference": "4a61e50bfbd1bdce929d75dafd66dd101fdc7f84"
+                "reference": "65f8bcc02b1b034e4b2a2bb043b68da4e8a05eaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wedrix/watchtower/zipball/4a61e50bfbd1bdce929d75dafd66dd101fdc7f84",
-                "reference": "4a61e50bfbd1bdce929d75dafd66dd101fdc7f84",
+                "url": "https://api.github.com/repos/Wedrix/watchtower/zipball/65f8bcc02b1b034e4b2a2bb043b68da4e8a05eaa",
+                "reference": "65f8bcc02b1b034e4b2a2bb043b68da4e8a05eaa",
                 "shasum": ""
             },
             "require": {
@@ -3694,9 +3694,9 @@
             "description": "A wrapper around graphql-php for serving GraphQL from Doctrine-based frameworks like Symfony.",
             "support": {
                 "issues": "https://github.com/Wedrix/watchtower/issues",
-                "source": "https://github.com/Wedrix/watchtower/tree/v5.0.7"
+                "source": "https://github.com/Wedrix/watchtower/tree/v5.0.9"
             },
-            "time": "2024-02-14T14:57:42+00:00"
+            "time": "2024-03-12T04:30:29+00:00"
         }
     ],
     "packages-dev": [
