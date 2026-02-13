@@ -3,7 +3,7 @@ WedrixWatchtowerBundle integrates [Watchtower](https://github.com/Wedrix/watchto
 # Requirements
 
 * PHP `8.0+`
-* Symfony `5.4+`
+* Symfony `5.4`, `6.4`, or `7.x`
 * `wedrix/watchtower` `^10.0`
 
 # Installation

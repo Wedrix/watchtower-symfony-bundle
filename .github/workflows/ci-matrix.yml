@@ -56,9 +56,9 @@ jobs:
             doctrine_orm: '^3.0'
             prefer_lowest: 'false'
 
-          - lane: php8.4-sf8.0-doctrine3-latest
+          - lane: php8.4-sf7.4-doctrine3-latest
             php: '8.4'
-            symfony: '8.0.*'
+            symfony: '7.4.*'
             doctrine_orm: '^3.0'
             prefer_lowest: 'false'
 

@@ -4,8 +4,8 @@
     "type": "symfony-bundle",
     "require": {
         "php": "^8.0",
-        "symfony/framework-bundle": "^5.4 || ^6.4 || ^7.0 || ^8.0",
-        "symfony/yaml": "^5.4 || ^6.4 || ^7.0 || ^8.0",
+        "symfony/framework-bundle": "^5.4 || ^6.4 || ^7.0",
+        "symfony/yaml": "^5.4 || ^6.4 || ^7.0",
         "doctrine/doctrine-bundle": "^2.8",
         "wedrix/watchtower": "^10.0"
     },
