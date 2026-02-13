@@ -10,10 +10,10 @@ use Symfony\Component\Routing\RouteCollection;
 
 class RoutesLoader implements RouteLoaderInterface
 {
-    private readonly RouteCollection $routes;
+    private RouteCollection $routes;
 
     public function __construct(
-        private readonly string $configuredEndpoint
+        private string $configuredEndpoint
     )
     {
         $this->routes = (function(): RouteCollection {
@@ -23,7 +23,7 @@ class RoutesLoader implements RouteLoaderInterface
                 name: 'watchtower_graphql_api',
                 route: new Route(
                     path: $this->configuredEndpoint,
-                    methods: ['GET','POST']
+                    methods: ['POST']
                 )
             );
 

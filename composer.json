@@ -3,14 +3,21 @@
     "description": "Symfony bundle for watchtower",
     "type": "symfony-bundle",
     "require": {
-        "symfony/framework-bundle": "^6.1",
+        "php": "^8.0",
+        "symfony/framework-bundle": "^5.4 || ^6.4 || ^7.0 || ^8.0",
+        "symfony/yaml": "^5.4 || ^6.4 || ^7.0 || ^8.0",
         "doctrine/doctrine-bundle": "^2.8",
-        "wedrix/watchtower": "^5.0"
+        "wedrix/watchtower": "^10.0"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Wedrix\\WatchtowerBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Wedrix\\WatchtowerBundle\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -21,6 +28,10 @@
     ],
     "minimum-stability": "stable",
     "require-dev": {
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^9.6"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --configuration phpunit.xml"
     }
 }

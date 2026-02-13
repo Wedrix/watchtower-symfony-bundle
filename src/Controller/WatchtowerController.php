@@ -16,14 +16,14 @@ class WatchtowerController extends AbstractController
     /**
      * @var array<string,mixed>
      */
-    private readonly array $context;
+    private array $context;
     
     /**
      * @param array<string,mixed> $context
      */
     public function __construct(
-        private readonly WatchtowerExecutor $executor,
-        private readonly bool $debug,
+        private WatchtowerExecutor $executor,
+        private bool $debug,
         ContainerInterface $container,
         array $context
     )

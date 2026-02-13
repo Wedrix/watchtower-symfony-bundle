@@ -1,14 +1,14 @@
-The WedrixWatchtowerBundle allows you to easily serve a GraphQL API for a Symfony application in as few as three easy steps. It is based on [Watchtower](https://github.com/Wedrix/watchtower), a wrapper around graphql-php, that provides an enhanced fallback resolver capable of auto-resolving GraphQL queries using the Doctrine schema.
+WedrixWatchtowerBundle integrates [Watchtower](https://github.com/Wedrix/watchtower) with Symfony so you can expose a GraphQL API from Doctrine entities with minimal setup.
 
 # Requirements
 
-This bundle is only compatible with Symfony versions >=6.1.
+* PHP `8.0+`
+* Symfony `5.4+`
+* `wedrix/watchtower` `^10.0`
 
 # Installation
 
-Install the bundle in three easy steps:
-
-1. Enable recipes defined in the contrib repository:
+1. Enable Symfony contrib recipes (once per project):
 
         composer config extra.symfony.allow-contrib true
 
@@ -16,37 +16,94 @@ Install the bundle in three easy steps:
 
         composer require wedrix/watchtower-bundle
 
-3. Generate the GrahQL schema:
+3. Generate your initial schema:
 
         php bin/console watchtower:schema:generate
 
-**That's it!** Your GraphQL API is now available at `whatever-your-domain-is/graphql.json` by default.  
+Your GraphQL endpoint is served through the configured `endpoint` path (commonly `/graphql.json`).
 
-**Note:** When accessing the API over a web browser you may need to enable CORS if it is not already enabled for your application. To do so, kindly view the [NelmioCorsBundle documentation](https://symfony.com/bundles/NelmioCorsBundle/current/index.html) for the installation and setup guide. You may also view [the demo application's source code](https://github.com/Wedrix/watchtower-symfony-demo-application/blob/main/config/packages/nelmio_cors.yaml) for a quick-and-dirty example configuration after installing the bundle.
+When calling the endpoint from browsers, make sure CORS is configured if needed (for example with [NelmioCorsBundle](https://symfony.com/bundles/NelmioCorsBundle/current/index.html)).
 
-# Features
+# Quick Start
 
-For a complete list of features kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#features).
+Run a query:
 
-# Config Options
+```bash
+curl -X POST 'http://localhost:8000/graphql.json' \
+  -H 'Content-Type: application/json' \
+  -d '{"query":"{ __typename }"}'
+```
 
-The various configuration options are available in the `config/packages/wedrix_watchtower_bundle.yaml` file:
+The route accepts `POST` requests only.
 
-* `endpoint` - configures the enpoint for accessing the GraphQL API (/graphql.json by default).
-* `schema_file` - configures the file used as the source of the GraphQL schema (auto-generated using the `php bin/console watchtower:schema:generate` command). You may point it to a pre-existing schema file if your project already has one.
-* `plugins_directory` - configures the directory containing your various plugins: filters, selectors, resolvers, etc. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#plugins) for more info on plugins.
-* `scalar_type_definitions_directory` - configures the directory containing your various scalar type definition files. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#scalar-type-definitions) for more info on scalar type definitions.
-* `cache_directory` - the directory for storing caches.
-* `optimize` - whether to run in optimized mode. This improves the performance but may be annoying in development since it necessitates regenerating the cache whenever you make changes to the schema or add new plugins or scalar type definitions.
-* `debug` - whether to send debug information to the client. Most of the time, this should only be enabled in development environments but the configuration is exposed for those who want to take their chances debugging production environemnts.
-* `context` - this allows you access any service in the container in plugins using the Node::context() method. The service key can be any name of your choosing but the value should be the service id. For example: `entity_manager: 'doctrine.orm.entity_manager'`.
+# Configuration
 
-# Available Commands
+Configure the bundle in `config/packages/wedrix_watchtower_bundle.yaml`:
 
-* `watchtower:plugins:add` - used to generate the boilerplate for plugins. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#plugins) for more info on plugins.
-* `watchtower:scalar-type-definitions:add` - used to generate the boilderplate for scalar type definitions. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#scalar-type-definitions) for more info on scalar type definitions.
-* `watchtower:schema:generate` - used to generate the GraphQL schema file based on the Doctrine schema.
-* `watchtower:plugins:list` - lists all the configured plugins. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#plugins) for more info on plugins.
-* `watchtower:scalar-type-definitions:list` - lists all the configured scalar type definitions. Kindly view the [Watchtower documentation](https://github.com/Wedrix/watchtower#scalar-type-definitions) for more info on scalar type definitions.
-* `watchtower:schema:update` - used to update the GraphQL schema file based on the current Doctrine schema.
-* `watchtower:cache:generate` - used to generate the updated cache.
+```yaml
+wedrix_watchtower_bundle:
+    endpoint: '/graphql.json'
+    schema_file: '%kernel.project_dir%/resources/graphql/schema.graphql'
+    plugins_directory: '%kernel.project_dir%/resources/graphql/plugins'
+    scalar_type_definitions_directory: '%kernel.project_dir%/resources/graphql/scalar_type_definitions'
+    cache_directory: '%kernel.cache_dir%/watchtower'
+    optimize: false
+    debug: '%kernel.debug%'
+    context:
+        entity_manager: 'doctrine.orm.entity_manager'
+```
+
+Options:
+
+* `endpoint`: GraphQL endpoint path.
+* `schema_file`: GraphQL schema file path.
+* `plugins_directory`: directory containing Watchtower plugins.
+* `scalar_type_definitions_directory`: directory containing scalar type definition files.
+* `cache_directory`: directory used for Watchtower cache artifacts.
+* `optimize`: enables cache-first execution mode; run `watchtower:cache:generate` after schema/plugin/scalar changes.
+* `debug`: includes GraphQL debug details in responses.
+* `context`: map of context keys to Symfony service IDs; resolved services are exposed to plugins via `Node::context()`.
+
+At runtime, plugins also receive these built-in context entries:
+
+* `request`: current `Symfony\Component\HttpFoundation\Request`
+* `response`: current `Symfony\Component\HttpFoundation\Response`
+
+# Console Commands
+
+* `watchtower:schema:generate`: generate a new schema file from Doctrine metadata.
+* `watchtower:schema:update`: currently invalidates schema cache; it does not rewrite the schema file yet.
+* `watchtower:cache:generate`: generate cache files used by optimize mode.
+* `watchtower:plugins:add`: generate plugin boilerplate interactively.
+* `watchtower:plugins:list`: list configured plugins.
+* `watchtower:scalar-type-definitions:add`: generate scalar type definition boilerplate.
+* `watchtower:scalar-type-definitions:list`: list configured scalar type definitions.
+
+`watchtower:plugins:add` supports:
+
+* `constraint`
+* `root_constraint`
+* `filter`
+* `ordering`
+* `selector`
+* `resolver`
+* `authorizor`
+* `root_authorizor`
+* `mutation`
+* `subscription`
+
+For plugin conventions and feature details, see the upstream Watchtower docs:
+
+* Plugins: https://github.com/Wedrix/watchtower#plugins
+* Scalar types: https://github.com/Wedrix/watchtower#scalar-type-definitions
+* Full feature docs: https://github.com/Wedrix/watchtower#features
+
+# Development
+
+Run tests:
+
+```bash
+composer test
+```
+
+CI runs a dependency matrix across supported PHP, Symfony, and Doctrine ORM combinations (including lowest and latest lanes for key baselines).

@@ -1,0 +1,104 @@
+name: CI Matrix
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    name: ${{ matrix.lane }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lane: php8.0-sf5.4-doctrine2-lowest
+            php: '8.0'
+            symfony: '5.4.*'
+            doctrine_orm: '^2.8'
+            prefer_lowest: 'true'
+
+          - lane: php8.0-sf5.4-doctrine2-latest
+            php: '8.0'
+            symfony: '5.4.*'
+            doctrine_orm: '^2.8'
+            prefer_lowest: 'false'
+
+          - lane: php8.1-sf5.4-doctrine3-lowest
+            php: '8.1'
+            symfony: '5.4.*'
+            doctrine_orm: '^3.0'
+            prefer_lowest: 'true'
+
+          - lane: php8.1-sf5.4-doctrine3-latest
+            php: '8.1'
+            symfony: '5.4.*'
+            doctrine_orm: '^3.0'
+            prefer_lowest: 'false'
+
+          - lane: php8.2-sf6.4-doctrine2-latest
+            php: '8.2'
+            symfony: '6.4.*'
+            doctrine_orm: '^2.8'
+            prefer_lowest: 'false'
+
+          - lane: php8.2-sf6.4-doctrine3-latest
+            php: '8.2'
+            symfony: '6.4.*'
+            doctrine_orm: '^3.0'
+            prefer_lowest: 'false'
+
+          - lane: php8.3-sf7.4-doctrine3-latest
+            php: '8.3'
+            symfony: '7.4.*'
+            doctrine_orm: '^3.0'
+            prefer_lowest: 'false'
+
+          - lane: php8.4-sf8.0-doctrine3-latest
+            php: '8.4'
+            symfony: '8.0.*'
+            doctrine_orm: '^3.0'
+            prefer_lowest: 'false'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer files
+        run: composer validate --strict
+
+      - name: Install dependencies (lowest)
+        if: matrix.prefer_lowest == 'true'
+        run: |
+          composer update \
+            --no-interaction \
+            --prefer-dist \
+            --with-all-dependencies \
+            --prefer-lowest \
+            --prefer-stable \
+            --with "symfony/framework-bundle:${{ matrix.symfony }}" \
+            --with "symfony/yaml:${{ matrix.symfony }}" \
+            --with "doctrine/orm:${{ matrix.doctrine_orm }}"
+
+      - name: Install dependencies (latest)
+        if: matrix.prefer_lowest != 'true'
+        run: |
+          composer update \
+            --no-interaction \
+            --prefer-dist \
+            --with-all-dependencies \
+            --with "symfony/framework-bundle:${{ matrix.symfony }}" \
+            --with "symfony/yaml:${{ matrix.symfony }}" \
+            --with "doctrine/orm:${{ matrix.doctrine_orm }}"
+
+      - name: Run tests
+        run: composer test

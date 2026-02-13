@@ -17,7 +17,7 @@ use Wedrix\Watchtower\Console as WatchtowerConsole;
 class AddScalarTypeDefinitionCommand extends Command
 {
     public function __construct(
-        protected readonly WatchtowerConsole $watchtowerConsole
+        protected WatchtowerConsole $watchtowerConsole
     )
     {
         parent::__construct();

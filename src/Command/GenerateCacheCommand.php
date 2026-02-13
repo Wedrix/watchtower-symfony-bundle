@@ -14,7 +14,7 @@ use Wedrix\Watchtower\Console as WatchtowerConsole;
 class GenerateCacheCommand extends Command
 {
     public function __construct(
-        protected readonly WatchtowerConsole $watchtowerConsole
+        protected WatchtowerConsole $watchtowerConsole
     )
     {
         parent::__construct();
