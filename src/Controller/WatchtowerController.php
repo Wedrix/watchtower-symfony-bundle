@@ -54,11 +54,10 @@ class WatchtowerController extends AbstractController
                         ->executeQuery(
                             source: $input['query'] ?? '',
                             rootValue: [],
-                            contextValue: [
+                            contextValue: \array_merge([
                                 'request' => $request,
                                 'response' => $response,
-                                ...$this->context
-                            ],
+                            ], $this->context),
                             variableValues: $input['variables'] ?? null,
                             operationName: $input['operationName'] ?? null,
                             validationRules: null

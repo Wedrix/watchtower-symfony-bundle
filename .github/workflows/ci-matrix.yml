@@ -15,51 +15,101 @@ jobs:
       matrix:
         include:
           - lane: php8.0-sf5.4-doctrine2-lowest
+            watchtower: '^10.0'
             php: '8.0'
             symfony: '5.4.*'
             doctrine_orm: '^2.8'
             prefer_lowest: 'true'
 
           - lane: php8.0-sf5.4-doctrine2-latest
+            watchtower: '^10.0'
             php: '8.0'
             symfony: '5.4.*'
             doctrine_orm: '^2.8'
             prefer_lowest: 'false'
 
           - lane: php8.1-sf5.4-doctrine3-lowest
+            watchtower: '^10.0'
             php: '8.1'
             symfony: '5.4.*'
             doctrine_orm: '^3.0'
             prefer_lowest: 'true'
 
           - lane: php8.1-sf5.4-doctrine3-latest
+            watchtower: '^10.0'
             php: '8.1'
             symfony: '5.4.*'
             doctrine_orm: '^3.0'
             prefer_lowest: 'false'
 
           - lane: php8.2-sf6.4-doctrine2-latest
+            watchtower: '^10.0'
             php: '8.2'
             symfony: '6.4.*'
             doctrine_orm: '^2.8'
             prefer_lowest: 'false'
 
           - lane: php8.2-sf6.4-doctrine3-latest
+            watchtower: '^10.0'
             php: '8.2'
             symfony: '6.4.*'
             doctrine_orm: '^3.0'
             prefer_lowest: 'false'
 
           - lane: php8.3-sf7.4-doctrine3-latest
+            watchtower: '^10.0'
             php: '8.3'
             symfony: '7.4.*'
             doctrine_orm: '^3.0'
             prefer_lowest: 'false'
 
           - lane: php8.4-sf7.4-doctrine3-latest
+            watchtower: '^10.0'
             php: '8.4'
             symfony: '7.4.*'
             doctrine_orm: '^3.0'
+            prefer_lowest: 'false'
+
+          - lane: core11-php8.0-sf5.4-doctrine2-lowest
+            watchtower: '^11.0'
+            php: '8.0'
+            symfony: '5.4.*'
+            doctrine_orm: '^2.20'
+            prefer_lowest: 'true'
+
+          - lane: core11-php8.2-sf6.4-doctrine3-latest
+            watchtower: '^11.0'
+            php: '8.2'
+            symfony: '6.4.*'
+            doctrine_orm: '^3.3'
+            prefer_lowest: 'false'
+
+          - lane: core12.3.0-php8.0-sf5.4-doctrine2-lowest
+            watchtower: '12.3.0'
+            php: '8.0'
+            symfony: '5.4.*'
+            doctrine_orm: '^2.20'
+            prefer_lowest: 'true'
+
+          - lane: core12-php8.1-sf5.4-doctrine3-lowest
+            watchtower: '^12.3'
+            php: '8.1'
+            symfony: '5.4.*'
+            doctrine_orm: '^3.3'
+            prefer_lowest: 'true'
+
+          - lane: core12-php8.2-sf6.4-doctrine2-latest
+            watchtower: '^12.3'
+            php: '8.2'
+            symfony: '6.4.*'
+            doctrine_orm: '^2.20'
+            prefer_lowest: 'false'
+
+          - lane: core12-php8.4-sf7.4-doctrine3-latest
+            watchtower: '^12.3'
+            php: '8.4'
+            symfony: '7.4.*'
+            doctrine_orm: '^3.3'
             prefer_lowest: 'false'
 
     steps:
@@ -70,6 +120,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          extensions: pdo_sqlite
           coverage: none
           tools: composer:v2
 
@@ -87,6 +138,7 @@ jobs:
             --prefer-stable \
             --with "symfony/framework-bundle:${{ matrix.symfony }}" \
             --with "symfony/yaml:${{ matrix.symfony }}" \
+            --with "wedrix/watchtower:${{ matrix.watchtower }}" \
             --with "doctrine/orm:${{ matrix.doctrine_orm }}"
 
       - name: Install dependencies (latest)
@@ -98,6 +150,7 @@ jobs:
             --with-all-dependencies \
             --with "symfony/framework-bundle:${{ matrix.symfony }}" \
             --with "symfony/yaml:${{ matrix.symfony }}" \
+            --with "wedrix/watchtower:${{ matrix.watchtower }}" \
             --with "doctrine/orm:${{ matrix.doctrine_orm }}"
 
       - name: Run tests

@@ -45,12 +45,38 @@ final class AddPluginCommandTest extends TestCase
         $watchtowerConsole = $this->createMock(WatchtowerConsole::class);
         $watchtowerConsole
             ->expects(self::once())
-            ->method('addRootAuthorizorPlugin');
+            ->method(\method_exists(WatchtowerConsole::class, 'addRootResultAuthorizorPlugin')
+                ? 'addRootResultAuthorizorPlugin'
+                : 'addRootAuthorizorPlugin');
 
         $tester = $this->createTester($watchtowerConsole);
         $tester->setInputs(['root_authorizor']);
 
         self::assertSame(Command::SUCCESS, $tester->execute([]));
+    }
+
+    /**
+     * @dataProvider authorizorKinds
+     */
+    public function testItAddsResultAuthorizorsUsingTheInstalledCoreApi(bool $collections): void
+    {
+        $watchtowerConsole = $this->createMock(WatchtowerConsole::class);
+        $watchtowerConsole
+            ->expects(self::once())
+            ->method(\method_exists(WatchtowerConsole::class, 'addResultAuthorizorPlugin')
+                ? 'addResultAuthorizorPlugin'
+                : 'addAuthorizorPlugin')
+            ->with('Product', $collections);
+
+        $tester = $this->createTester($watchtowerConsole);
+        $tester->setInputs(['authorizor', 'Product', $collections ? 'yes' : 'no']);
+
+        self::assertSame(Command::SUCCESS, $tester->execute([]));
+    }
+
+    public static function authorizorKinds(): array
+    {
+        return [[false], [true]];
     }
 
     public function testItPassesNodeTypeToFilterPlugins(): void

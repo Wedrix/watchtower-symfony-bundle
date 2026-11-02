@@ -187,8 +187,12 @@ class AddPluginCommand extends Command
         }
 
         if ($pluginType === 'authorizor') {
+            // Watchtower 12.2 split node authorization from result authorization.
+            $method = \method_exists($this->watchtowerConsole, 'addResultAuthorizorPlugin')
+                ? 'addResultAuthorizorPlugin'
+                : 'addAuthorizorPlugin';
             $this->watchtowerConsole
-                ->addAuthorizorPlugin(
+                ->{$method}(
                     $nodeType = (function () use ($input, $output): string {
                         $helper = $this->getHelper('question');
         
@@ -215,7 +219,10 @@ class AddPluginCommand extends Command
         }
 
         if ($pluginType === 'root_authorizor') {
-            $this->watchtowerConsole->addRootAuthorizorPlugin();
+            $method = \method_exists($this->watchtowerConsole, 'addRootResultAuthorizorPlugin')
+                ? 'addRootResultAuthorizorPlugin'
+                : 'addRootAuthorizorPlugin';
+            $this->watchtowerConsole->{$method}();
         }
 
         if ($pluginType === 'mutation') {
